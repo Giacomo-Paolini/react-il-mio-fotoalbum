@@ -7,13 +7,42 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id         Int      @id @unique @default(autoincrement())
+  username   String   @db.VarChar(255)
+  email      String   @db.VarChar(255)
+  password   String   @db.VarChar(255)
+  photo      Photo[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
 model Photo {
-  id          Int      @id @unique @default(autoincrement())
-  title       String   @db.VarChar(255)
-  description String   @db.Text
-  image       String   @db.VarChar(255)
-  category    String   @db.VarChar(50)
-  visible     Boolean  @default(true)
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  id          Int        @id @unique @default(autoincrement())
+  title       String     @db.VarChar(255)
+  description String     @db.Text
+  image       String     @db.VarChar(255)
+  categorys   Category[]
+  user        User       @relation(fields: [user_id], references: [id])
+  user_id     Int
+  visible     Boolean    @default(true)
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+}
+
+model Category {
+  id         Int      @id @unique @default(autoincrement())
+  name       String   @db.VarChar(255)
+  photos     Photo[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Message {
+  id         Int      @id @unique @default(autoincrement())
+  name       String   @db.VarChar(255)
+  email      String   @db.VarChar(255)
+  message    String   @db.Text
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
