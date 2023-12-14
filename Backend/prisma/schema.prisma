@@ -12,7 +12,6 @@ model User {
   username   String   @db.VarChar(255)
   email      String   @db.VarChar(255)
   password   String   @db.VarChar(255)
-  photo      Photo[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
@@ -22,9 +21,7 @@ model Photo {
   title       String     @db.VarChar(255)
   description String     @db.Text
   image       String     @db.VarChar(255)
-  categorys   Category[]
-  user        User       @relation(fields: [user_id], references: [id])
-  user_id     Int
+  category    Category[]
   visible     Boolean    @default(true)
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt
@@ -33,7 +30,7 @@ model Photo {
 model Category {
   id         Int      @id @unique @default(autoincrement())
   name       String   @db.VarChar(255)
-  photos     Photo[]
+  photo      Photo[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

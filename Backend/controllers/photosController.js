@@ -22,8 +22,12 @@ async function store(req, res) {
 			title: data.title,
 			description: data.description,
 			image: data.image,
-			category: data.category,
 			visible: data.visible,
+			category: {
+				connect: {
+					id: data.categoryId,
+				},
+			},
 		},
 	});
 	res.json(newPhoto);
