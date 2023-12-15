@@ -16,18 +16,20 @@ export default function Navbar() {
 
 	return (
 		<nav>
-			<div className="">
-				<Link className="p-4" to="/">
+			<div className="p-4 flex justify-between items-center">
+				<Link className="" to="/">
 					Home
 				</Link>
-				<Link className="p-4" to="/dashboard">
-					Dashboard
-				</Link>
-				{loggedIn && (
-					<Link onClick={handleLogout} className="p-4" to="/">
-						Logout
+				<div>
+					<Link className="" to="/dashboard">
+						Dashboard
 					</Link>
-				)}
+					{loggedIn && (
+						<Link onClick={handleLogout} className="ml-4" to="/">
+							Logout
+						</Link>
+					)}
+				</div>
 			</div>
 		</nav>
 	);
