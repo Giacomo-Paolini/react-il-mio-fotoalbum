@@ -1,7 +1,14 @@
+import { Link } from 'react-router-dom';
+
 export default function Dashboard() {
 	return (
-		<div className="flex">
-			<h1>Dashboard</h1>
-		</div>
+		<>
+			<div className="grid place-items-center">
+				<nav>
+					<Link>New Photo</Link>
+				</nav>
+			</div>
+			<div></div>
+		</>
 	);
 }

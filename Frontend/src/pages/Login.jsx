@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/useAuth';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
 	const navigate = useNavigate();
@@ -78,8 +79,13 @@ export default function Login() {
 							className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
 							type="submit"
 						>
-							Sign in
+							Login
 						</button>
+						<Link to="/register">
+							<button className="ml-4 shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
+								Register
+							</button>
+						</Link>
 					</div>
 				</div>
 			</form>
