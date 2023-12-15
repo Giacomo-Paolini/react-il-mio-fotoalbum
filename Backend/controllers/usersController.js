@@ -22,7 +22,11 @@ async function register(req, res) {
 async function login(req, res) {
 	const { email, password } = req.body;
 
-	const user = await prisma.user.findUnique({ where: { email } });
+	if (!email || !password) {
+		return res.status(400).json({ error: 'Email and password are required' });
+	}
+
+	const user = await prisma.user.findUnique({ where: { email: email } });
 
 	if (!user) {
 		return res.status(400).json({ message: 'Invalid email or password' });
