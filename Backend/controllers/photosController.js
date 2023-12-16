@@ -21,11 +21,11 @@ async function store(req, res) {
 		data: {
 			title: data.title,
 			description: data.description,
-			image: data.image,
-			visible: data.visible,
+			image: req.file.filename,
+			visible: JSON.parse(data.visible),
 			category: {
 				connect: {
-					id: data.categoryId,
+					id: JSON.parse(data.categoryId),
 				},
 			},
 		},

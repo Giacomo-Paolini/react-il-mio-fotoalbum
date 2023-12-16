@@ -8,6 +8,7 @@ const notFound = require('./middlewares/notFound');
 const photoRouter = require('./routers/photoRouter');
 const categoryRouter = require('./routers/categoryRouter');
 const userRouter = require('./routers/userRouter');
+const uploadRouter = require('./routers/uploadRouter');
 
 const app = express();
 app.use(express.json());
@@ -20,6 +21,7 @@ dotenv.config();
 
 app.use('/photos', photoRouter);
 app.use('/categories', categoryRouter);
+app.use('/upload', uploadRouter);
 app.use('/', userRouter);
 
 app.use(notFound);
