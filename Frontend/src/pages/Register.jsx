@@ -96,7 +96,7 @@ export default function Login() {
 						>
 							Register
 						</button>
-						<Link to="/register">
+						<Link to="/login">
 							<button className="ml-4 shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
 								Login
 							</button>

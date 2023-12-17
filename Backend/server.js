@@ -21,6 +21,7 @@ dotenv.config();
 
 app.use('/photos', photoRouter);
 app.use('/categories', categoryRouter);
+app.use('/uploads', express.static('uploads'));
 app.use('/upload', uploadRouter);
 app.use('/', userRouter);
 
