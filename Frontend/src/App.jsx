@@ -4,6 +4,7 @@ import PrivateRoute from './middlewares/PrivateRoute';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import { AuthProvider } from './contexts/authContext';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path="/login" element={<Login />} />
+						<Route path="/register" element={<Register />} />
 
 						<Route
 							path="/dashboard/*"
