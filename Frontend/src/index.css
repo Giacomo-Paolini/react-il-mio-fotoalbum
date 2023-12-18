@@ -29,3 +29,7 @@ h3 {
 input[type="checkbox"]:checked {
   background-color: orange;
 }
+
+.mix-blend {
+  mix-blend-mode: difference;
+}

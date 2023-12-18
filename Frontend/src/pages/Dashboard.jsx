@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, redirect } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [photos, setPhotos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState(false);
 
   function handleChange(event) {
     const value = Number(event.target.value);
@@ -66,19 +69,46 @@ export default function Dashboard() {
       });
   }
 
+  function deletePhoto(id) {
+    axios
+      .delete(`http://localhost:3000/photos/${id}`)
+      .then((response) => {
+        console.log(response);
+        alert("Image successfully deleted!");
+        redirect("/dashboard/");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function showPhoto(id) {
+    axios
+      .get(`http://localhost:3000/photos/${id}`)
+      .then((response) => {
+        setSelectedPhoto(response.data);
+        navigate(`/dashboard/show/${id}`);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   return (
     <>
       <div className="grid place-items-center">
         <nav className="mb-4">
-          <button onClick={openNewPhotoForm}>New Photo</button>
+          <button onClick={openNewPhotoForm}>NEW PHOTO</button>
         </nav>
       </div>
       {isModalOpen && (
         <div className="my-modal modal grid place-items-center">
           <div className="modal-content">
-            <span className="close" onClick={closeNewPhotoForm}>
-              &times;
-            </span>
+            <button>
+              <span className="close text-4xl" onClick={closeNewPhotoForm}>
+                &times;
+              </span>
+            </button>
             <form className="w-full max-w-sm" onSubmit={handleSubmit}>
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/3">
@@ -91,7 +121,7 @@ export default function Dashboard() {
                 </div>
                 <div className="md:w-2/3">
                   <input
-                    className="bg-gray-400 text-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 leading-tight focus:outline-none focus:bg-gray-700 focus:border-purple-500"
+                    className="bg-gray-400 text-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 leading-tight focus:outline-none focus:bg-gray-700 focus:border-orange-500"
                     type="text"
                     name="title"
                     id="title"
@@ -110,7 +140,7 @@ export default function Dashboard() {
                 </div>
                 <div className="md:w-2/3">
                   <input
-                    className="bg-gray-400 text-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 leading-tight focus:outline-none focus:bg-gray-700 focus:border-purple-500"
+                    className="bg-gray-400 text-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 leading-tight focus:outline-none focus:bg-gray-700 focus:border-orange-500"
                     name="image"
                     id="image"
                     type="file"
@@ -129,7 +159,7 @@ export default function Dashboard() {
                 </div>
                 <div className="md:w-2/3">
                   <textarea
-                    className="bg-gray-400 text-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 leading-tight focus:outline-none focus:bg-gray-700 focus:border-purple-500"
+                    className="bg-gray-400 text-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 leading-tight focus:outline-none focus:bg-gray-700 focus:border-orange-500"
                     name="description"
                     id="description"
                   />
@@ -147,7 +177,7 @@ export default function Dashboard() {
                 </div>
                 <div className="md:w-2/3">
                   <input
-                    className="bg-gray-400 appearance-none border-2 border-gray-200 rounded w-25 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                    className="bg-gray-400 text-white appearance-none border-2 border-gray-200 rounded w-25 py-2 px-4 leading-tight focus:outline-none focus:bg-gray-700 focus:border-orange-500"
                     type="checkbox"
                     name="visible"
                     id="visible"
@@ -169,7 +199,7 @@ export default function Dashboard() {
                     <div key={index}>
                       <label>
                         <input
-                          className="bg-gray-400 appearance-none border-2 border-gray-200 w-25 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-purple-500"
+                          className="bg-gray-400 me-3 text-white appearance-none border-2 border-gray-200 rounded w-[10px] h-[10px] py-2 px-4 leading-tight focus:outline-none focus:bg-gray-700 focus:border-orange-500"
                           type="checkbox"
                           name="categories"
                           value={category.id}
@@ -187,14 +217,14 @@ export default function Dashboard() {
                 <div className="md:w-1/3"></div>
                 <div className="md:w-2/3">
                   <button
-                    className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                    className="shadow bg-orange-500 hover:bg-orange-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                     type="submit"
                   >
                     Create
                   </button>
                   <button
                     onClick={closeNewPhotoForm}
-                    className="ml-4 shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                    className="ml-4 shadow border hover:bg-orange-500 hover:text-white focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded"
                   >
                     Cancel
                   </button>
@@ -206,12 +236,48 @@ export default function Dashboard() {
       )}
       <div className="grid grid-cols-3 p-3">
         {photos.map((photo, index) => (
-          <div key={index} className="max-w-[450px]">
-            <img
-              src={`http://localhost:3000/uploads/${photo.image}`}
-              className="border border-transparent rounded-lg shadow-xl"
-              alt={photo.title}
-            />
+          <div
+            key={index}
+            className="flex items-center justify-center max-w-[450px] mx-auto"
+          >
+            <div className="relative group">
+              <img
+                src={`http://localhost:3000/uploads/${photo.image}`}
+                className="border border-transparent rounded-lg shadow-xl"
+                alt={photo.title}
+              />
+              <div>
+                <button
+                  onClick={() => showPhoto(photo.id)}
+                  className="text-2xl absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                >
+                  <ion-icon
+                    className="mix-blend"
+                    name="create-outline"
+                  ></ion-icon>{" "}
+                </button>
+              </div>
+              <div>
+                <button
+                  onClick={() => deletePhoto(photo.id)}
+                  className="text-2xl absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                >
+                  <ion-icon
+                    className="mix-blend text-white"
+                    name="trash-outline"
+                  ></ion-icon>
+                </button>
+              </div>
+              <div className="p-4 absolute bottom-0">
+                <h2 className="mix-blend text-2xl text-white">{photo.title}</h2>
+                <p className="mix-blend text-white overflow-ellipsis overflow-hidden whitespace-nowrap">
+                  {photo.description}
+                </p>
+                <small className="text-white mix-blend">
+                  {photo.categories.map((category) => category.name).join(", ")}
+                </small>
+              </div>
+            </div>
           </div>
         ))}
       </div>

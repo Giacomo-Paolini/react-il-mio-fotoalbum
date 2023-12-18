@@ -25,8 +25,8 @@ export default function PhotoList() {
             key={index}
             className="absolute max-w-[450px]"
             style={{
-              left: `${Math.floor(Math.random() * 60 + 20)}%`,
-              top: `${Math.floor(Math.random() * 60 + 20)}%`,
+              left: `${Math.floor(Math.random() * 40 + 20)}%`,
+              top: `${Math.floor(Math.random() * 20 + 20)}%`,
               transform: "translate(-50%, -50%)",
               zIndex: `${index}`,
             }}
@@ -39,7 +39,9 @@ export default function PhotoList() {
               />
               <div className="absolute bottom-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <h2 className="text-2xl text-white">{photo.title}</h2>
-                <p className="text-white">{photo.description}</p>
+                <p className="text-white overflow-ellipsis overflow-hidden whitespace-nowrap">
+                  {photo.description}
+                </p>
                 <small className="text-white">
                   {photo.categories.map((category) => category.name).join(", ")}
                 </small>

@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthProvider } from "./contexts/authContext";
+import Show from "./pages/Show";
 
 function App() {
   return (
@@ -20,7 +21,9 @@ function App() {
             <Route
               path="/dashboard/*"
               element={<PrivateRoute path="/" element={<Dashboard />} />}
-            />
+            >
+              <Route path="show/:id" element={<Show />} />
+            </Route>
           </Routes>
         </Layout>
       </BrowserRouter>

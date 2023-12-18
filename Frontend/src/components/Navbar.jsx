@@ -19,7 +19,7 @@ export default function Navbar() {
 
   return (
     <nav className={`${isHomePage ? "fixed top-0 left-0 right-0 z-50" : ""}`}>
-      <div className="p-4 flex justify-between items-center">
+      <div className="p-8 flex justify-between items-center">
         <Link className="text-xl" to="/">
           HOME
         </Link>
