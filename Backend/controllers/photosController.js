@@ -7,27 +7,29 @@ async function index(req, res) {
 		// where: {
 		//    visible: true,
 		// },
+		include: {
+			categories: true,
+		  },
 	});
 	res.json(photos);
 }
 
 async function store(req, res) {
 	if (!req.body || !req.body.categories) {
-	  return res.status(400).json({ message: 'Request body or categories are missing' });
+		return res.status(400).json({ message: 'Request body or categories are missing' });
 	}
-  
+	
 	const data = req.body;
+	const categories = Array.isArray(data.categories) ? data.categories : JSON.parse(data.categories);
 	const newPhoto = await prisma.photo.create({
 	  data: {
 		title: data.title,
 		description: data.description,
 		image: req.file.filename,
 		visible: data.visible ? true : false,
-		category: {
-		  connect: {
-			id: Number(data.categories), // if categories is a string number
+		categories: {
+			connect: categories.map((id) => ({ id: Number(id) })),
 		  },
-		},
 	  },
 	});
 	res.json(newPhoto);

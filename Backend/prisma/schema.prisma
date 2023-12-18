@@ -22,7 +22,7 @@ model Photo {
   title       String     @db.VarChar(255)
   description String     @db.Text
   image       String     @db.VarChar(255)
-  category    Category[]
+  categories  Category[]
   visible     Boolean    @default(true)
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt
@@ -33,7 +33,7 @@ model Photo {
 model Category {
   id         Int      @id @unique @default(autoincrement())
   name       String   @db.VarChar(255)
-  photo      Photo[]
+  photos     Photo[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

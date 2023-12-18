@@ -44,15 +44,22 @@ export default function Dashboard() {
     const data = new FormData(event.target);
 
     data.set("visible", data.get("visible") === "on");
+
     data.set(
       "categories",
-      Object.keys(selectedCategories).filter((id) => selectedCategories[id])
+      JSON.stringify(
+        Object.keys(selectedCategories)
+          .filter((id) => selectedCategories[id])
+          .map((id) => Number(id))
+      )
     );
 
     axios
       .post("http://localhost:3000/photos", data)
       .then((response) => {
         console.log(response);
+        alert("Image successfully uploaded!");
+        event.target.reset();
       })
       .catch((error) => {
         console.error(error);
